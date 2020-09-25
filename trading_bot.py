@@ -3,7 +3,7 @@ import datetime, re, requests, io, time, random, string
 from bs4 import BeautifulSoup
 from credentials import email, password
 
-driver = webdriver.Chrome('/Users/romebell/downloads/chromedriver')
+driver = webdriver.Chrome('/Users/stevenmichaud/downloads/chromedriver')
 time.sleep(3)
 driver.get('https://wallmine.com')
 time.sleep(2)
@@ -138,7 +138,13 @@ for i in range(len(stock_list[28:])):
         final_list.append(each_stock)
 
 for each_stock in final_list:
-    print(parse_stock_data(each_stock))
-    time.sleep(1)
-
+    x = parse_stock_data(each_stock)
+    driver.get(f"https://wallmine.com/{x.get('exchange')}/{x.get('symbol')}")
+    if x.get('symbol') in driver.page_source:
+        print(f"We are on {x.get('company_name')} stock page")
+        print('---')
+    print(x)
+    print('==================================')
+    time.sleep(2)
+driver.quit()
 
